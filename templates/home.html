@@ -1,11 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Reversr</h1>
-{% if audio %}
-<p>{{ audio.filename }}</p>
 <input type="file" accept="audio/*">
-
 <button onclick="window.play_sound()" class='btn btn-primary' disabled>Reverse it</button>
 <button onclick="window.stop_sound()" class='btn' disabled>Stop</button>
-{% endif %}
 {% endblock %}
