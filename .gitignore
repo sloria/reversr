@@ -12,3 +12,4 @@ venv
 
 media/*
 media/audio/*
+!media/audio/iknow.mp3

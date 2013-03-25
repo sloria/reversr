@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<button id="play_iknow" class='btn btn-large' disabled>I KNOW</button>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/iknow.js') }}"></script>    
+{% endblock scripts %}

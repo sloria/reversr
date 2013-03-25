@@ -1,6 +1,7 @@
 ###
 RECORDING
 ###
+
 RECORDING_LIMIT = 10 * 1000
 timecode = (ms) ->
     hms = 
@@ -39,61 +40,36 @@ play = () ->
         progress: (milliseconds) ->
             document.getElementById('time').innerHTML = timecode(milliseconds)
         finished: () -> 
-            console.log Recorder.audioData()
     })
 
 stop = () -> 
     Recorder.stop()
-    # init_sound(Recorder.audioData)
-    play()
+
+
+upload = () ->
+   Recorder.upload({
+      url: "/",
+      audioParam: "audio_file",
+      success: (response) ->
+        track = $.parseJSON(response)
+        console.log track.filepath
+        load_sound_file(track.filepath)
+   })
 
 $('#record_button').click ()-> record()
 $('#play_button').click () -> play()
 $('#stop_button').click () -> stop()
-
-### REVERSING ###
-
-context = new window.webkitAudioContext()
-source = null
-audio_buffer = null
-
-stop_sound = () -> source.noteOff(0) if source
-
-play_sound = () ->
-    source = context.createBufferSource()
-    Array.prototype.reverse.call( audio_buffer.getChannelData(0) )
-    Array.prototype.reverse.call( audio_buffer.getChannelData(1) )
-    source.buffer = audio_buffer
-    source.loop = false
-    source.connect(context.destination)
-    source.noteOn(0) # Play
-
-
-init_sound = (array_buffer) ->
-    context.decodeAudioData(array_buffer, (buffer) -> 
-        audio_buffer = buffer
-        buttons = document.querySelectorAll('button')
-        buttons[0].disabled = false
-    , (e) -> console.log('Error decoding file', e)
-    )
+$('#upload_button').click () -> upload()
 
 file_input = document.querySelector('input[type="file"]')
 file_input.addEventListener('change', (e) ->
     reader = new FileReader()
     reader.onload = (e) -> 
-        console.log this.result
         init_sound(this.result)
     reader.readAsArrayBuffer(this.files[0])
 , false)
 
-load_sound_file = (url) ->
-    xhr = new XMLHttpRequest()
-    xhr.open('GET', url, true)
-    xhr.onload = (e) -> init_sound(this.response)
-    xhr.send()
-
-window.stop_sound = stop_sound
-window.play_sound = play_sound
-window.load_sound_file = load_sound_file
+$('#play_reversed').click () -> play_reversed()
+$('#stop_sound').click () -> stop_sound()
 
 

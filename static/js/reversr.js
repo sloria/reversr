@@ -6,7 +6,7 @@ RECORDING
 
 
 (function() {
-  var RECORDING_LIMIT, audio_buffer, context, file_input, init_sound, load_sound_file, play, play_sound, record, source, stop, stop_sound, timecode;
+  var RECORDING_LIMIT, file_input, play, record, stop, timecode, upload;
 
   RECORDING_LIMIT = 10 * 1000;
 
@@ -50,15 +50,25 @@ RECORDING
       progress: function(milliseconds) {
         return document.getElementById('time').innerHTML = timecode(milliseconds);
       },
-      finished: function() {
-        return console.log(Recorder.audioData());
-      }
+      finished: function() {}
     });
   };
 
   stop = function() {
-    Recorder.stop();
-    return play();
+    return Recorder.stop();
+  };
+
+  upload = function() {
+    return Recorder.upload({
+      url: "/",
+      audioParam: "audio_file",
+      success: function(response) {
+        var track;
+        track = $.parseJSON(response);
+        console.log(track.filepath);
+        return load_sound_file(track.filepath);
+      }
+    });
   };
 
   $('#record_button').click(function() {
@@ -73,42 +83,9 @@ RECORDING
     return stop();
   });
 
-  /* REVERSING
-  */
-
-
-  context = new window.webkitAudioContext();
-
-  source = null;
-
-  audio_buffer = null;
-
-  stop_sound = function() {
-    if (source) {
-      return source.noteOff(0);
-    }
-  };
-
-  play_sound = function() {
-    source = context.createBufferSource();
-    Array.prototype.reverse.call(audio_buffer.getChannelData(0));
-    Array.prototype.reverse.call(audio_buffer.getChannelData(1));
-    source.buffer = audio_buffer;
-    source.loop = false;
-    source.connect(context.destination);
-    return source.noteOn(0);
-  };
-
-  init_sound = function(array_buffer) {
-    return context.decodeAudioData(array_buffer, function(buffer) {
-      var buttons;
-      audio_buffer = buffer;
-      buttons = document.querySelectorAll('button');
-      return buttons[0].disabled = false;
-    }, function(e) {
-      return console.log('Error decoding file', e);
-    });
-  };
+  $('#upload_button').click(function() {
+    return upload();
+  });
 
   file_input = document.querySelector('input[type="file"]');
 
@@ -116,26 +93,17 @@ RECORDING
     var reader;
     reader = new FileReader();
     reader.onload = function(e) {
-      console.log(this.result);
       return init_sound(this.result);
     };
     return reader.readAsArrayBuffer(this.files[0]);
   }, false);
 
-  load_sound_file = function(url) {
-    var xhr;
-    xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.onload = function(e) {
-      return init_sound(this.response);
-    };
-    return xhr.send();
-  };
+  $('#play_reversed').click(function() {
+    return play_reversed();
+  });
 
-  window.stop_sound = stop_sound;
-
-  window.play_sound = play_sound;
-
-  window.load_sound_file = load_sound_file;
+  $('#stop_sound').click(function() {
+    return stop_sound();
+  });
 
 }).call(this);
