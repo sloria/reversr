@@ -1,7 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Reversr</h1>
+
+<p>Input a file</p>
 <input type="file" accept="audio/*">
+
+<p>Or record</p>
+
+<input id="record_button" type="button" class='btn btn-danger' value='Record'>
+<input id="play_button" type="button" class='btn btn-primary' value='Play'>
+<input id="stop_button" type="button" class='btn' value='Stop'>
+<span id="time">0:00</span>
+
+
 <button onclick="window.play_sound()" class='btn btn-primary' disabled>Reverse it</button>
 <button onclick="window.stop_sound()" class='btn' disabled>Stop</button>
+
 {% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='libs/recorder/recorder.js') }}"></script>
+<script src="{{ url_for('static', filename='js/record.js') }}"></script>
+{% endblock scripts %}
