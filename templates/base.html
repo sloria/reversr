@@ -26,8 +26,6 @@
 </div><!-- /.container -->
 {% block body %}
 
-{# {% include "nav.html" %} #}
-
 {% block header %}{% endblock %}
 
 <div class="{% block content_class %}container{% endblock content_class %}">
@@ -64,10 +62,23 @@
 
 
 
-    <!-- JavaScript at the bottom for fast page loading -->
-
+   {#  JavaScript at the bottom for fast page loading  #}
     <script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {# Google analytics #}
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-39544608-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
     {% block scripts %}{% endblock scripts %}
     <!-- end scripts -->
 

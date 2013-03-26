@@ -59,7 +59,6 @@ upload = () ->
       audioParam: "audio_file",
       success: (response) ->
         window.n_channels = 1
-        console.log "n_channels: #{window.n_channels}"
         track = $.parseJSON(response)
         load_sound_file(track.filepath)
    })
@@ -74,7 +73,6 @@ file_input.addEventListener('change', (e) ->
     reader = new FileReader()
     reader.onload = (e) ->
         window.n_channels = 2
-        console.log "n_channels: #{window.n_channels}"
         init_sound(this.result)
     reader.readAsArrayBuffer(this.files[0])
 , false)
