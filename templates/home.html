@@ -1,20 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Reversr</h1>
+<div class="center">
+<h1 class="page-title">Reversr</h1>
 
 <p>Pick a song from your computer</p>
 <input type="file" accept="audio/*">
 
 <p>Or record (10 sec max)</p>
 
-<input id="record_button" type="button" class='btn btn-danger' value='Record'>
-<input id="stop_button" type="button" class='btn btn-warning' value='Finish!' disabled>
+<input id="record_button" type="button" class='btn btn-danger btn-large' value='Record'>
+<input id="stop_button" type="button" class='btn btn-warning btn-large' value='Finish!' disabled>
 {# <input id="upload_button" type="button" class='btn btn-warning' value='Upload'> #}
 <span id="time">0:00</span>
 
 
-<button id="play_reversed" class='btn btn-primary' disabled>Reverse it</button>
-<button id="stop_sound" class='btn'>Stop</button>
+<button id="play_reversed" class='btn btn-primary btn-large' disabled>Reverse it</button>
+<button id="stop_sound" class='btn btn-large'>Stop</button>
+    
+</div>
 
 {% endblock %}
 

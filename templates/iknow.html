@@ -1,6 +1,12 @@
 {% extends "base.html" %}
+{% block page_title %}I KNOW{% endblock page_title %}
 {% block content %}
-<button id="play_iknow" class='btn btn-large' disabled>I KNOW</button>
+<div class="center">
+<div id="image" style="display: hidden">
+<img id="neil" width="400" height="400" src="{{ url_for('static', filename='img/diddy.gif') }}" alt="Diddy knows" style="display: hidden">  
+</div>
+<button id="play_iknow" class='btn btn-danger btn-large' disabled>I KNOW</button>
+</div>
 {% endblock content %}
 
 {% block scripts %}
@@ -8,9 +14,24 @@
 (function() {
   window.load_sound_file("{{ url_for('serve_audio', filename='iknow.mp3') }}");
 
-  $('#play_iknow').click(function() {
-    return play_sound();
+  var $image = $('#image'),
+        $button = $('#play_iknow');
+
+        $image.hide();
+  $button.click(function(e) {
+    e.preventDefault();
+    stop_sound();
+    play_sound();
+    $image.show();
+    $button.hide();
   });
+
+  $image.click(function(e) {
+    e.preventDefault();
+    stop_sound();
+    $image.hide();
+    $button.show();
+  })
 
 }).call(this);
 </script>

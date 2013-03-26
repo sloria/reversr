@@ -10,6 +10,8 @@ html {
 
 body {
   padding-top: 60px;
+  line-height: 50px;
+  font-size: 1.2em;
 }
 
 section {
@@ -26,6 +28,15 @@ textarea {
 
 .center h1 {
     margin-bottom: 10px;
+}
+
+h1.page-title {
+  font-size: 50px;
+}
+
+p.tagline{
+  color: #ffffff;
+  font-style: italic;
 }
 
 /* footer */
