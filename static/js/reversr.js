@@ -72,7 +72,8 @@ RECORDING
       audioParam: "audio_file",
       success: function(response) {
         var track;
-        console.log("uploaded file");
+        window.n_channels = 1;
+        console.log("n_channels: " + window.n_channels);
         track = $.parseJSON(response);
         return load_sound_file(track.filepath);
       }
@@ -101,12 +102,15 @@ RECORDING
     var reader;
     reader = new FileReader();
     reader.onload = function(e) {
+      window.n_channels = 2;
+      console.log("n_channels: " + window.n_channels);
       return init_sound(this.result);
     };
     return reader.readAsArrayBuffer(this.files[0]);
   }, false);
 
   $('#play_reversed').click(function() {
+    stop_sound;
     return play_reversed();
   });
 

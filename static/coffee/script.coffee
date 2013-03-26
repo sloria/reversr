@@ -3,12 +3,14 @@ context = new window.webkitAudioContext()
 source = null
 audio_buffer = null
 
+window.n_channels = 2
+
 stop_sound = () -> source.noteOff(0) if source
 
-play_reversed = (n_channels=1) ->
+play_reversed = () ->
     source = context.createBufferSource()
     Array.prototype.reverse.call( audio_buffer.getChannelData(0) )
-    Array.prototype.reverse.call( audio_buffer.getChannelData(1) ) if n_channels > 1
+    Array.prototype.reverse.call( audio_buffer.getChannelData(1) ) if window.n_channels > 1
     source.buffer = audio_buffer
     source.loop = false
     source.connect(context.destination)

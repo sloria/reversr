@@ -58,7 +58,8 @@ upload = () ->
       url: "/",
       audioParam: "audio_file",
       success: (response) ->
-        console.log "uploaded file"
+        window.n_channels = 1
+        console.log "n_channels: #{window.n_channels}"
         track = $.parseJSON(response)
         load_sound_file(track.filepath)
    })
@@ -71,12 +72,16 @@ $('#upload_button').click () -> upload()
 file_input = document.querySelector('input[type="file"]')
 file_input.addEventListener('change', (e) ->
     reader = new FileReader()
-    reader.onload = (e) -> 
+    reader.onload = (e) ->
+        window.n_channels = 2
+        console.log "n_channels: #{window.n_channels}"
         init_sound(this.result)
     reader.readAsArrayBuffer(this.files[0])
 , false)
 
-$('#play_reversed').click () -> play_reversed()
+$('#play_reversed').click () -> 
+    stop_sound
+    play_reversed()
 $('#stop_sound').click () -> stop_sound()
 
 

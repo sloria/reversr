@@ -13,19 +13,18 @@
 
   audio_buffer = null;
 
+  window.n_channels = 2;
+
   stop_sound = function() {
     if (source) {
       return source.noteOff(0);
     }
   };
 
-  play_reversed = function(n_channels) {
-    if (n_channels == null) {
-      n_channels = 1;
-    }
+  play_reversed = function() {
     source = context.createBufferSource();
     Array.prototype.reverse.call(audio_buffer.getChannelData(0));
-    if (n_channels > 1) {
+    if (window.n_channels > 1) {
       Array.prototype.reverse.call(audio_buffer.getChannelData(1));
     }
     source.buffer = audio_buffer;
