@@ -1,20 +1,5 @@
-"""
-Starter fabfile for deploying the PROJECTNAME project.
-
-Change all the things marked CHANGEME. Other things can be left at their
-defaults if you are happy with the default layout.
-"""
-
 import os
-from fabric.api import run, local, env, cd, task
-#from fabric.decorators import runs_once
-#from fabric.context_managers import cd, lcd, settings, hide
-
-
-# Python version
-PYTHON_BIN = "python2.7"
-PYTHON_PREFIX = ""  # e.g. /usr/local  Use "" for automatic
-PYTHON_FULL_PATH = "%s/bin/%s" % (PYTHON_PREFIX, PYTHON_BIN) if PYTHON_PREFIX else PYTHON_BIN
+from fabric.api import local, task
 
 # Javascript directory
 JAVASCRIPT_DIR = os.path.join('static', 'js')
@@ -49,26 +34,4 @@ def coffee(watch=1):
     else:
         print "Compiling .coffee files in {} and compiling them to {}".format(COFFEE_DIR, JAVASCRIPT_DIR)
         command = base_command + '-c ' + coffee_files
-    local(command)
-
-@task
-def watchmedo():
-    """
-    Watches the file system for changes of ``*.py`` files and executes the tests
-    whenever you save a file.
-    """ 
-    cmd = 'watchmedo shell-command --recursive --ignore-directories --patterns="*.py" --wait --command="fab test:unit=1,webtest=1" .'
-    local(cmd)
-
-@task
-def test(unit=1, webtest=1):
-    """
-    Runs the tests.
-    """
-    command = 'nosetests --verbosity=2'
-    if all == 0:
-        if int(unit) == 0:
-            command += " --exclude='unit_tests' "
-        if int(webtest) == 0:
-            command += " --exclude='webtest_tests' "
     local(command)

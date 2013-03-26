@@ -1,14 +1,11 @@
 # Reversr
 
-## How to use this template 
+Just playing around with the Web Audio API.
 
-- Create your virtualenv
-- `$ git clone https://github.com/sloria/reversr`
-- Rename the folder to your project name.
-- `$ cd reversr`
-- `$ pip install -r requirements/dev.txt`
-- `$ python app.py`
+## About
+It reverses audio. Nothing more.
 
-### Running tests
-- Run tests using  `$ fab test`
-- To enter "watch" mode,  `$ fab watchmedo`
+Oh, and there's an easter egg. See if you can find it.
+
+
+
