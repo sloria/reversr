@@ -1,85 +1,47 @@
-###
-RECORDING
-###
+### Reverse Playback ###
+context = new window.webkitAudioContext()
+source = null
+audio_buffer = null
 
-RECORDING_LIMIT = 10 * 1000
-timecode = (ms) ->
-    hms = 
-        h: Math.floor( ms / (60*60*1000) ),
-        m: Math.floor( (ms/60000) % 60 ),
-        s: Math.floor( ms/1000 % 60 )
-    
-    tc = []
-    tc.push(hms.h) if hms.h > 0
+window.n_channels = 2
 
-    tc.push( 
-        if hms.m < 10 and hms.h > 0 then "0" + hms.m else hms.m
+stop_sound = () -> source.noteOff(0) if source
+
+play_reversed = () ->
+    source = context.createBufferSource()
+    Array.prototype.reverse.call( audio_buffer.getChannelData(0) )
+    Array.prototype.reverse.call( audio_buffer.getChannelData(1) ) if window.n_channels > 1
+    source.buffer = audio_buffer
+    source.loop = false
+    source.connect(context.destination)
+    source.noteOn(0) # Play
+
+play_sound = () ->
+    source = context.createBufferSource()
+    source.buffer = audio_buffer
+    source.loop = true
+    source.connect(context.destination)
+    source.noteOn(0) # Play
+
+init_sound = (array_buffer) ->
+    context.decodeAudioData(array_buffer, (buffer) -> 
+        audio_buffer = buffer
+        buttons = document.querySelectorAll('button')
+        buttons[0].disabled = false
+    , (e) -> console.log('Error decoding file', e)
     )
 
-    tc.push(
-        if hms.s < 10 then "0" + hms.s else hms.s
-    )
-    return tc.join(':')
+load_sound_file = (url) ->
+    request = new XMLHttpRequest()
+    request.open('GET', url, true)
+    request.responseType = 'arraybuffer'
+    request.onload = (e) -> init_sound(this.response)
+    request.send()
 
-Recorder.initialize({
-    swfSrc: "/static/libs/recorder/recorder.swf"
-})
 
-record = () ->
-    Recorder.record({
-        start: () -> 
-            document.getElementById('record_button').disabled = true
-            document.getElementById("stop_button").disabled = false 
-        progress: (milliseconds) ->
-            document.getElementById("time").innerHTML = timecode(milliseconds)
-            if milliseconds > RECORDING_LIMIT
-                Recorder.stop()
-        cancel: () ->
-            document.getElementById('record_button').disabled = false 
-            document.getElementById("stop_button").disabled = true
-    })
-
-play = () ->
-    Recorder.stop()
-    Recorder.play({
-        progress: (milliseconds) ->
-            document.getElementById('time').innerHTML = timecode(milliseconds)
-        finished: () -> 
-    })
-
-stop = () -> 
-    document.getElementById('record_button').disabled = false 
-    document.getElementById("stop_button").disabled = true
-    Recorder.stop()
-    upload()
-
-upload = () ->
-   Recorder.upload({
-      url: "/",
-      audioParam: "audio_file",
-      success: (response) ->
-        window.n_channels = 1
-        track = $.parseJSON(response)
-        load_sound_file(track.filepath)
-   })
-
-$('#record_button').click ()-> record()
-$('#play_button').click () -> play()
-$('#stop_button').click () -> stop()
-$('#upload_button').click () -> upload()
-
-file_input = document.querySelector('input[type="file"]')
-file_input.addEventListener('change', (e) ->
-    reader = new FileReader()
-    reader.onload = (e) ->
-        window.n_channels = 2
-        init_sound(this.result)
-    reader.readAsArrayBuffer(this.files[0])
-, false)
-
-$('#play_reversed').click () -> 
-    stop_sound
-    play_reversed()
-$('#stop_sound').click () -> stop_sound()
-
+window.stop_sound = stop_sound
+window.play_sound = play_sound
+window.play_reversed = play_reversed
+window.init_sound = init_sound
+window.load_sound_file = load_sound_file
 

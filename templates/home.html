@@ -10,7 +10,6 @@
 
 <input id="record_button" type="button" class='btn btn-danger btn-large' value='Record'>
 <input id="stop_button" type="button" class='btn btn-warning btn-large' value='Finish!' disabled>
-{# <input id="upload_button" type="button" class='btn btn-warning' value='Upload'> #}
 <span id="time">0:00</span>
 
 
@@ -22,6 +21,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='libs/recorder/recorder.js') }}"></script>
-<script src="{{ url_for('static', filename='js/reversr.js') }}"></script>
+<script src="{{ url_for('static', filename='js/record.js') }}"></script>
 {% endblock scripts %}

@@ -1,7 +1,7 @@
 import os
 import random
 import tempfile
-from flask import Flask, render_template, send_from_directory, request, jsonify
+from flask import Flask, render_template, send_from_directory, request, jsonify, flash
 from werkzeug import secure_filename
 
 # Configuration
@@ -42,6 +42,7 @@ def home():
 
 @app.route('/iknow')
 def iknow():
+    flash(u'Turn on your speakers.', 'info')
     return render_template('iknow.html')
 
 @app.route('/media/audio/<temp_directory>/<filename>')
