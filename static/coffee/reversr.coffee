@@ -31,12 +31,14 @@ init_sound = (array_buffer) ->
     , (e) -> console.log('Error decoding file', e)
     )
 
+
 load_sound_file = (url) ->
     request = new XMLHttpRequest()
     request.open('GET', url, true)
     request.responseType = 'arraybuffer'
     request.onload = (e) -> init_sound(this.response)
     request.send()
+
 
 
 window.stop_sound = stop_sound
