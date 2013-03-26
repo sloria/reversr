@@ -4,5 +4,15 @@
 {% endblock content %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/iknow.js') }}"></script>    
+<script>
+(function() {
+  window.load_sound_file("{{ url_for('serve_audio', filename='iknow.mp3') }}");
+
+  $('#play_iknow').click(function() {
+    return play_sound();
+  });
+
+}).call(this);
+</script>
 {% endblock scripts %}
+

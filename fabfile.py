@@ -23,9 +23,11 @@ COFFEE_DIR = os.path.join('static', 'coffee')
 
 
 @task
-def clean():
+def clean(remote=False):
     '''Clears temporary directories in the media/audio directory.'''
     local('rm -rf media/audio/tmp*')
+    if remote:
+        local('heroku run "rm -rf /app/media/audio/tmp*"')
     print 'Cleaned up.'
 
 @task

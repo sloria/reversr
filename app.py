@@ -43,12 +43,17 @@ def iknow():
     return render_template('iknow.html')
 
 @app.route('/media/audio/<temp_directory>/<filename>')
-def serve_audio(temp_directory, filename):
+def serve_temp_audio(temp_directory, filename):
     return send_from_directory(
                                 os.path.join(app.config['UPLOAD_FOLDER'],
                                             temp_directory),
                                 filename
                                 )
+
+@app.route('/media/audio/<filename>')
+def serve_audio(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
