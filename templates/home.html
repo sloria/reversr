@@ -2,15 +2,14 @@
 {% block content %}
 <h1>Reversr</h1>
 
-<p>Input a file</p>
+<p>Pick a song from your computer</p>
 <input type="file" accept="audio/*">
 
-<p>Or record</p>
+<p>Or record (10 sec max)</p>
 
 <input id="record_button" type="button" class='btn btn-danger' value='Record'>
-<input id="play_button" type="button" class='btn btn-primary' value='Play'>
-<input id="stop_button" type="button" class='btn' value='Stop'>
-<input id="upload_button" type="button" class='btn' value='Upload'>
+<input id="stop_button" type="button" class='btn btn-warning' value='Finish!' disabled>
+{# <input id="upload_button" type="button" class='btn btn-warning' value='Upload'> #}
 <span id="time">0:00</span>
 
 

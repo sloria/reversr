@@ -27,11 +27,16 @@ Recorder.initialize({
 
 record = () ->
     Recorder.record({
-        start: () -> console.log 'Started recording'
-        progress: (milliseconds) -> 
+        start: () -> 
+            document.getElementById('record_button').disabled = true
+            document.getElementById("stop_button").disabled = false 
+        progress: (milliseconds) ->
             document.getElementById("time").innerHTML = timecode(milliseconds)
-            Recorder.stop() if milliseconds > RECORDING_LIMIT
-
+            if milliseconds > RECORDING_LIMIT
+                Recorder.stop()
+        cancel: () ->
+            document.getElementById('record_button').disabled = false 
+            document.getElementById("stop_button").disabled = true
     })
 
 play = () ->
@@ -43,16 +48,18 @@ play = () ->
     })
 
 stop = () -> 
+    document.getElementById('record_button').disabled = false 
+    document.getElementById("stop_button").disabled = true
     Recorder.stop()
-
+    upload()
 
 upload = () ->
    Recorder.upload({
       url: "/",
       audioParam: "audio_file",
       success: (response) ->
+        console.log "uploaded file"
         track = $.parseJSON(response)
-        console.log track.filepath
         load_sound_file(track.filepath)
    })
 

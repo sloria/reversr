@@ -36,6 +36,7 @@ load_sound_file = (url) ->
     request.onload = (e) -> init_sound(this.response)
     request.send()
 
+
 window.stop_sound = stop_sound
 window.play_sound = play_sound
 window.play_reversed = play_reversed

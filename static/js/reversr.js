@@ -33,13 +33,18 @@ RECORDING
   record = function() {
     return Recorder.record({
       start: function() {
-        return console.log('Started recording');
+        document.getElementById('record_button').disabled = true;
+        return document.getElementById("stop_button").disabled = false;
       },
       progress: function(milliseconds) {
         document.getElementById("time").innerHTML = timecode(milliseconds);
         if (milliseconds > RECORDING_LIMIT) {
           return Recorder.stop();
         }
+      },
+      cancel: function() {
+        document.getElementById('record_button').disabled = false;
+        return document.getElementById("stop_button").disabled = true;
       }
     });
   };
@@ -55,7 +60,10 @@ RECORDING
   };
 
   stop = function() {
-    return Recorder.stop();
+    document.getElementById('record_button').disabled = false;
+    document.getElementById("stop_button").disabled = true;
+    Recorder.stop();
+    return upload();
   };
 
   upload = function() {
@@ -64,8 +72,8 @@ RECORDING
       audioParam: "audio_file",
       success: function(response) {
         var track;
+        console.log("uploaded file");
         track = $.parseJSON(response);
-        console.log(track.filepath);
         return load_sound_file(track.filepath);
       }
     });
