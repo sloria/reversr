@@ -1,6 +1,8 @@
 # Reversr
 
-Just playing around with the Web Audio API.
+Hosted by Heroku: [reversr.herokuapp.com](http://reversr.herokuapp.com)
+
+Just playing around with the [Web Audio API](https://dvcs.w3.org/hg/audio/raw-file/tip/webaudio/specification.html).
 
 ## About
 It reverses audio. Nothing more.
