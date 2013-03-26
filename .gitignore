@@ -10,6 +10,5 @@ _mailinglist
 .tox
 venv
 
-media/*
 media/audio/*
 !media/audio/iknow.mp3
