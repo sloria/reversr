@@ -15,6 +15,10 @@
 {% block scripts %}
 <script>
 (function() {
+
+  window.setTimeout(function(){
+    $('.alert').fadeOut();
+  }, 2000)
   window.load_sound_file("{{ url_for('serve_audio', filename='iknow.mp3') }}");
 
   var $image = $('#image'),
